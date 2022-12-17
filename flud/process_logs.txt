@@ -1,0 +1,6 @@
+Bot started...
+--New message detected. ID= 1 
+--Message successful processed. ID= 1 
+--New message detected. ID= 2 
+--User is stupid. ID= 2 
+Bot died...
