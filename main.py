@@ -1,10 +1,13 @@
-from lib import processing_of_message, logs, handler_filters
+from lib import message_processing, logs, handler_filters
 import settings
 from lib.utils import *
 
 bot = Bot(token=settings.TOKEN)
 dp = Dispatcher(bot)
 
+generator = message_processing.ProcessingModel({
+    'rude' : 'rude.csv'
+})
 
 @dp.message_handler(handler_filters.FilterBot())
 async def style_gen(message: types.Message):
@@ -12,8 +15,12 @@ async def style_gen(message: types.Message):
     logging.start_processing()
     try:
         if '@' + settings.BOT_NAME in message.text and len(message.text.split()) == 2 and int(message.text.split()[1]) in settings.features:
-            answer_gen = processing_of_message.ProcessingOfMessage(message.reply_to_message.text, message.text.split()[1])
-            await message.answer(answer_gen.answer_text())
+            
+            msg_type = message.text.split()[1]
+            msg_text = message.reply_to_message.text
+            answer_gen = generator.generate(msg_type, msg_text)
+            
+            await message.answer(answer_gen)
             logging.success_finish()
         else:
             logging.wrong_request_from_user()
