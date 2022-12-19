@@ -36,7 +36,9 @@ class botLogReplicas():
         self.start_message = "--New message detected. ID= " + str(self.ID) + ' '
         self.success_finish_message = "--Message successful processed. ID= " + str(self.ID) + ' '
         self.error_f1_message = "--Message was crashed. ID= " + str(self.ID) + ' '
-        self.error_f2_message = '   '
+        self.error_tab = '   '
+        self.style_processing_crashed_message = "--Reply checking was crashed. ID= " + str(self.ID) + ' '
+        self.filter_crashed_message = "--New Message Generate was crashed. ID= " + str(self.ID) + ' '
         self.wrong_request_message = "--User is stupid. ID= " + str(self.ID) + ' '
         self.message = message
         last_message_ID += 1
@@ -50,7 +52,16 @@ class botLogReplicas():
 
     def error(self, e: Exception):
         log_action(self.error_f1_message)
-        log_action(self.error_f2_message + str(e))
+        log_action(self.error_tab + str(e))
 
     def wrong_request_from_user(self):
         log_action(self.wrong_request_message)
+
+    def style_processing_crashed(self, e: Exception):
+        log_action(self.style_processing_crashed_message)
+        log_action(self.error_tab + str(e))
+
+    @staticmethod
+    def filter_crashed(filter_crashed_message, e: Exception):
+        log_action(filter_crashed_message)
+        log_action('    ' + str(e))

@@ -1,9 +1,11 @@
 from lib.utils import *
+from lib import logs
 import pandas as pd
 import tune_the_model as ttm
 
-KEY_FILENAME = '../settings.py'
+KEY_FILENAME = 'settings.py'
 SAMPLES_SEP = '\n\n'
+
 
 class ProcessingModel:
     def __init__(self, type_list):
@@ -19,8 +21,9 @@ class ProcessingModel:
         self.few_shot_types = dict()
         
         for [name, filename] in self.type_list.items():
+            print(name + ' ' + filename)
             try:
-              sample = pd.read_csv(filename, sep = ';')
+              sample = pd.read_csv(filename, sep=';')
               sample_text = ''
               
               text_type = sample.columns[0]
@@ -34,8 +37,8 @@ class ProcessingModel:
               sample_text += f'{text_type}: '
 
               self.few_shot_starter[name] = sample_text
-            except:
-              pass
+            except Exception as e:
+                logs.botLogReplicas.style_processing_crashed("--Style loading crashed...", e)
               
             
             
@@ -45,4 +48,4 @@ class ProcessingModel:
           few_shot_text += text + '\n'
           few_shot_text += self.few_shot_types[text_type][1] + ': '
           return list(ttm.generate(few_shot_text)[0].split(SAMPLES_SEP))[0]
-        return 'Такого типа не существует!'
+        a = 6 / 0

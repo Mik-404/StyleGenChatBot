@@ -8,5 +8,5 @@ class FilterBot(BoundFilter):
             if message.is_forward() or message.reply_to_message:
                 return True
         except Exception as e:
-            logs.log_(f"--Message was crashed: {message.text[0: min(len(message.text), 100)]} in reply checking...")
-            logs.log_(f"   {e}")
+            logs.botLogReplicas(message).filter_crashed(e)
+
