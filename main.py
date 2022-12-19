@@ -2,13 +2,12 @@ from lib import message_processing, logs, handler_filters
 import settings
 from lib.utils import *
 
+import random 
+
 bot = Bot(token=settings.TOKEN)
 dp = Dispatcher(bot)
 
-generator = message_processing.ProcessingModel({
-    'rude': 'samples/rude.csv',
-    'yoda': 'samples/yoda.csv'
-})
+generator = message_processing.ProcessingModel()
 
 @dp.message_handler(handler_filters.FilterBot())
 async def style_gen(message: types.Message):
@@ -26,6 +25,22 @@ async def style_gen(message: types.Message):
     except Exception as e:
         logging.error(e)
 
+
+@dp.message_handler(content_types=types.ContentType.TEXT)
+async def style_gen2(message: types.Message):
+    if random.randint(1,100) > settings.VARIETY:
+        logging = logs.botLogReplicas(message)
+        logging.start_processing()
+        try:
+            
+            msg_type = list(settings.MODELS.keys())[random.randint(1, len(settings.MODELS)) - 1]
+            print(msg_type)
+            msg_text = message  .text
+            answer_gen = generator.generate(msg_type, msg_text)
+            await message.answer(answer_gen)
+            logging.success_finish()
+        except Exception as e:
+            logging.error(e)
 
 def start_bot():
     logs.startlogging()
