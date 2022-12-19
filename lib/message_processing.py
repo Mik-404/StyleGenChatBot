@@ -1,5 +1,6 @@
 from lib.utils import *
 from lib import logs
+import settings
 import pandas as pd
 import tune_the_model as ttm
 
@@ -8,7 +9,7 @@ SAMPLES_SEP = '\n\n'
 
 
 class ProcessingModel:
-    def __init__(self, type_list):
+    def __init__(self):
         
         with open(KEY_FILENAME) as f:
             for param in f.readlines():
@@ -16,7 +17,7 @@ class ProcessingModel:
                     line = param.split('=')[1].strip()[1:-1]
                     ttm.set_api_key(line)
             
-        self.type_list = type_list
+        self.type_list = settings.MODELS
         self.few_shot_starter = dict()
         self.few_shot_types = dict()
         
