@@ -1,6 +1,6 @@
-TOKEN = '5858690376:AAFdL2zBwBmRYh22f6xXyzroZhtxmYII8Dg'
+TOKEN = 'pumpkin'
 LOGS_ADDR = 'flud'
 PROCESS_LOGS_NAME = 'process_logs.txt'
 MESSAGE_LOGS_NAME = 'message_logs.txt'
 BOT_NAME = 'stylechangerNLPnebot'
-TTM_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGlfa2V5IjoiczAzNmdteHA1TWFLSVhaekdxZVVtNWZ5aFhVMFpvMksyUTFlUkpQVyIsInVzZXJfaWQiOiJlMTAwYmZmNi03YTRlLTQzN2YtOTdkYy1lYWIwYTlkM2NlOTUiLCJpYXQiOjE2NzExOTAzNjF9.mO3JwRjHKy8_LGku1_C_tIrCihF9ItO-bkBsw-k4AjQ'
+TTM_TOKEN = 'pumpkin'
