@@ -1,4 +1,4 @@
 # StyleGenChatBot
-Бот делает что-то
+Бот делает что-то очень важное!!
 
 ## Installation
