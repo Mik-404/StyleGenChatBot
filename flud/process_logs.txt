@@ -1,3 +1,0 @@
-Bot started...
---New message detected. ID= 2 
---Message successful processed. ID= 2 
