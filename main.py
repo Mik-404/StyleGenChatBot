@@ -28,19 +28,31 @@ async def style_gen(message: types.Message):
 
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def style_gen2(message: types.Message):
-    if random.randint(1,100) > settings.VARIETY:
-        logging = logs.botLogReplicas(message)
-        logging.start_processing()
-        try:
-            
-            msg_type = list(settings.MODELS.keys())[random.randint(1, len(settings.MODELS)) - 1]
-            print(msg_type)
-            msg_text = message  .text
-            answer_gen = generator.generate(msg_type, msg_text)
-            await message.answer(answer_gen)
-            logging.success_finish()
-        except Exception as e:
-            logging.error(e)
+    try:
+        if '@' + settings.BOT_NAME == message.text.split()[0] and len(message.text.split()) == 3 and message.text.split()[1] == '/set_style':
+            style_type = message.text.split()[2]
+            if style_type == 'rude' or style_type == 'yoda' or style_type == 'sarcastic' or style_type == 'random':
+                settings.BOT_STYLE = style_type
+                await message.answer(f'Ок, мы сменили стиль на {settings.BOT_STYLE}')
+                logging.success_finish()
+            else:
+                await message.answer(f'В нашей базе данных нет стиля {style_type}')
+                logging.wrong_request_from_user()
+        else:
+            if random.randint(1,100) > settings.VARIETY:
+                logging = logs.botLogReplicas(message)
+                logging.start_processing()
+                try:
+                    msg_type = list(settings.MODELS.keys())[random.randint(1, len(settings.MODELS)) - 1]
+                    print(msg_type)
+                    msg_text = message  .text
+                    answer_gen = generator.generate(msg_type, msg_text)
+                    await message.answer(answer_gen)
+                    logging.success_finish()
+                except Exception as e:
+                    logging.error(e)
+    except Exception as e:
+        logging.error(e) 
 
 def start_bot():
     logs.startlogging()
