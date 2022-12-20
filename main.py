@@ -28,6 +28,7 @@ async def style_gen(message: types.Message):
 
 @dp.message_handler(content_types=types.ContentType.TEXT)
 async def style_gen2(message: types.Message):
+
     if random.randint(1,100) > settings.VARIETY:
         logging = logs.botLogReplicas(message)
         logging.start_processing()
