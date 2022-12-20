@@ -1,0 +1,6 @@
+/.gitignore
+/.DS_Store
+.idea/
+venv/
+lib/.DS_Store
+lib/__pycache__

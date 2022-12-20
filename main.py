@@ -32,7 +32,6 @@ async def style_gen2(message: types.Message):
         logging = logs.botLogReplicas(message)
         logging.start_processing()
         try:
-            
             msg_type = list(settings.MODELS.keys())[random.randint(1, len(settings.MODELS)) - 1]
             print(msg_type)
             msg_text = message  .text
