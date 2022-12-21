@@ -1,0 +1,54 @@
+from lib.utils import *
+from lib import logs
+import settings
+
+
+def db_get_style(chat_id, INFO_group):
+    chat_id = str(chat_id)
+    if chat_id in INFO_group.keys():
+        type_msg = INFO_group[chat_id]['style']
+    else:
+        INFO_group[chat_id] = settings.BASE_SETTING_CHAT_IN_DATABASE
+        type_msg = INFO_group[chat_id]['style']
+    if type_msg == 'random':
+        type_msg = list(settings.MODELS.keys())[random.randint(1, len(settings.MODELS)) - 1]
+    return type_msg
+
+
+def db_set_style(INFO_group, chat_id, new_style):
+    chat_id = str(chat_id)
+    if chat_id not in INFO_group.keys():
+        INFO_group[chat_id] = settings.BASE_SETTING_CHAT_IN_DATABASE
+    INFO_group[chat_id]["style"] = new_style
+
+
+def db_set_prob(INFO_group, chat_id, prob):
+    chat_id = str(chat_id)
+    if chat_id not in INFO_group.keys():
+        INFO_group[chat_id] = settings.BASE_SETTING_CHAT_IN_DATABASE
+    INFO_group[chat_id]["p"] = prob
+
+
+def db_check_contain(INFO_group, chat_id):
+    chat_id = str(chat_id)
+    if chat_id not in INFO_group.keys():
+        INFO_group[chat_id] = settings.BASE_SETTING_CHAT_IN_DATABASE
+
+
+def db_init_():
+    try:
+        with open(settings.ADDR + '/' + settings.DATABASE_NAME, 'r') as f:
+            return json.load(f)
+    except Exception as e:
+        with open(settings.ADDR + '/' + settings.DATABASE_NAME, 'w') as f:
+            f.write('{}')
+        print(e)
+        return {}
+
+
+def db_close_(INFO_group):
+    try:
+        with open(settings.ADDR + '/' + settings.DATABASE_NAME, "w") as f:
+            json.dump(INFO_group, f)
+    except Exception as e:
+        print(e)
