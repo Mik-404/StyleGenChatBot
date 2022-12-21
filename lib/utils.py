@@ -10,6 +10,9 @@ import os
 import time
 import json
 import random
+import re
+
+r = re.compile("[а-яА-Я]+")
 
 
 def is_int(a):

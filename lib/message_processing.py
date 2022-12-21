@@ -4,7 +4,6 @@ import settings
 
 
 import tune_the_model as ttm
-ttm.tune_generator
 
 KEY_FILENAME = 'settings.py'
 SAMPLES_SEP = '\n\n'
@@ -41,12 +40,10 @@ class ProcessingModel:
 
                 self.few_shot_starter[name] = sample_text
             except Exception as excep:
-                logs.BotLogReplicas.style_processing_crashed(excep)
+                logs.BotLogReplicas.style_preprocessing_crashed(excep)
 
     def generate(self, text_type, text):
-        if text_type in self.few_shot_starter:
-            few_shot_text = self.few_shot_starter[text_type]
-            few_shot_text += text + '\n'
-            few_shot_text += self.few_shot_types[text_type][1] + ': '
-            return list(ttm.generate(few_shot_text)[0].split(SAMPLES_SEP))[0]
-        a = 6 / 0
+        few_shot_text = self.few_shot_starter[text_type]
+        few_shot_text += text + '\n'
+        few_shot_text += self.few_shot_types[text_type][1] + ': '
+        return list(ttm.generate(few_shot_text)[0].split(SAMPLES_SEP))[0]
