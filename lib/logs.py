@@ -5,31 +5,31 @@ last_message_ID = 1
 
 
 def add_new_message_content(message: types.Message, ID_message):
-    with open(settings.LOGS_ADDR + '/' + settings.MESSAGE_LOGS_NAME, 'a+', encoding="utf-8") as file:
+    with open(settings.ADDR + '/' + settings.MESSAGE_LOGS_NAME, 'a+', encoding="utf-8") as file:
         file.write('ID ' + str(ID_message) + '\n')
         file.write('    ' + str(message) + '\n')
 
 
 def log_action(message):
-    with open(settings.LOGS_ADDR + '/' + settings.PROCESS_LOGS_NAME, 'a+', encoding="utf-8") as file:
+    with open(settings.ADDR + '/' + settings.PROCESS_LOGS_NAME, 'a+', encoding="utf-8") as file:
         file.write(message + '\n')
 
 
 def startlogging():
-    if not os.path.isdir(settings.LOGS_ADDR):
-        os.makedirs(settings.LOGS_ADDR)
-    with open(settings.LOGS_ADDR + '/' + settings.PROCESS_LOGS_NAME, 'w', encoding="utf-8") as file:
+    if not os.path.isdir(settings.ADDR):
+        os.makedirs(settings.ADDR)
+    with open(settings.ADDR + '/' + settings.PROCESS_LOGS_NAME, 'w', encoding="utf-8") as file:
         file.write('Bot started...' + '\n')
-    with open(settings.LOGS_ADDR + '/' + settings.MESSAGE_LOGS_NAME, 'w', encoding="utf-8") as file:
+    with open(settings.ADDR + '/' + settings.MESSAGE_LOGS_NAME, 'w', encoding="utf-8") as file:
         file.write('')
 
 
 def finishlogging():
-    with open(settings.LOGS_ADDR + '/' + settings.PROCESS_LOGS_NAME, 'a+', encoding="utf-8") as file:
+    with open(settings.ADDR + '/' + settings.PROCESS_LOGS_NAME, 'a+', encoding="utf-8") as file:
         file.writelines("Bot died...")
 
 
-class botLogReplicas():
+class BotLogReplicas:
     def __init__(self, message: types.Message):
         global last_message_ID
         self.ID = last_message_ID
@@ -62,6 +62,6 @@ class botLogReplicas():
         log_action(self.error_tab + str(e))
 
     @staticmethod
-    def filter_crashed(filter_crashed_message, e: Exception):
-        log_action(filter_crashed_message)
+    def filter_crashed(e: Exception):
+        log_action("--Style loading crashed...")
         log_action('    ' + str(e))

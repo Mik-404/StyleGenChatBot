@@ -1,6 +1,9 @@
 .DS_Store
 .idea/
 venv/
-lib/.DS_Store
-lib/__pycache__/
+/lib/.DS_Store
+/lib/__pycache__/
 __pycache__/
+flud/db.json
+flud/message_logs.txt
+flud/process_logs.txt
