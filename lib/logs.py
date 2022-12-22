@@ -4,18 +4,18 @@ from lib.utils import *
 last_message_ID = 1
 
 
-def add_new_message_content(message: types.Message, ID_message):
+async def add_new_message_content(message: types.Message, ID_message):
     with open(settings.ADDR + '/' + settings.MESSAGE_LOGS_NAME, 'a+', encoding="utf-8") as file:
         file.write('ID ' + str(ID_message) + '\n')
         file.write('    ' + str(message) + '\n')
 
 
-def log_action(message):
+async def log_action(message):
     with open(settings.ADDR + '/' + settings.PROCESS_LOGS_NAME, 'a+', encoding="utf-8") as file:
         file.write(message + '\n')
 
 
-def db_log_action(message):
+async def db_log_action(message):
     with open(settings.ADDR + '/' + settings.DB_LOGS_NAME, 'a+', encoding='utf-8') as file:
         file.write(message + '\n')
 
@@ -29,7 +29,7 @@ def startlogging():
         file.write('')
 
 
-def dbstartlogging():
+async def dbstartlogging():
     with open(settings.ADDR + '/' + settings.DB_LOGS_NAME, 'w', encoding='utf-8') as file:
         file.write('')
 
@@ -62,44 +62,51 @@ class BotLogReplicas:
         self.message = message
         last_message_ID += 1
 
-    def start_appeal_processing(self):
-        log_action(self.new_appeal_detected)
-        add_new_message_content(self.message, self.ID)
+    async def start_appeal_processing(self):
+        await log_action(self.new_appeal_detected)
+        await add_new_message_content(self.message, self.ID)
 
-    def start_random_message_processing(self):
-        log_action(self.got_random_message)
-        add_new_message_content(self.message, self.ID)
+    async def start_random_message_processing(self):
+        await log_action(self.got_random_message)
+        await add_new_message_content(self.message, self.ID)
 
-    def start_set_style_processing(self):
-        log_action(self.new_set_style_command_detected)
-        add_new_message_content(self.message, self.ID)
+    async def start_set_style_processing(self):
+        await log_action(self.new_set_style_command_detected)
+        await add_new_message_content(self.message, self.ID)
 
-    def start_set_prob_processing(self):
-        log_action(self.new_set_prob_command_detected)
-        add_new_message_content(self.message, self.ID)
+    async def start_set_prob_processing(self):
+        await log_action(self.new_set_prob_command_detected)
+        await add_new_message_content(self.message, self.ID)
 
-    def success_finish_processing(self):
-        log_action(self.success_finish)
+    async def success_finish_processing(self):
+        await log_action(self.success_finish)
 
-    def error_processing(self, e: Exception):
-        log_action(self.error_message)
-        log_action(self.error_tab + str(e))
+    async def error_processing(self, e: Exception):
+        await log_action(self.error_message)
+        await log_action(self.error_tab + str(e))
 
-    def wrong_request_from_user(self):
-        log_action(self.wrong_request_message)
+    async def wrong_request_from_user(self):
+        await log_action(self.wrong_request_message)
 
-    def filter_reply_crashed(self, e: Exception):
-        log_action(self.filter_reply_crashed_message)
-        log_action(self.error_tab + str(e))
+    async def filter_reply_crashed(self, e: Exception):
+        await log_action(self.filter_reply_crashed_message)
+        await log_action(self.error_tab + str(e))
 
-    def filter_command_crashed(self, e: Exception):
-        log_action(self.filter_command_crashed_message)
-        log_action(self.error_tab + str(e))
+    async def filter_command_crashed(self, e: Exception):
+        await log_action(self.filter_command_crashed_message)
+        await log_action(self.error_tab + str(e))
 
     @staticmethod
     def style_preprocessing_crashed(e: Exception):
-        log_action("--Style loading crashed...")
-        log_action('    ' + str(e))
+
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(log_action("--Style loading crashed..."))
+        loop.run_until_complete(log_action('    ' + str(e)))
+
+    @staticmethod
+    def style_preprocessing_success():
+        loop = asyncio.new_event_loop()
+        loop.run_until_complete(log_action("--Style loading complete..."))
 
 
 class DatabaseLog:
@@ -109,14 +116,14 @@ class DatabaseLog:
         self.set_style_command_detected = "--New set_style command detected. Chat id = {}, new value = {}"
         self.get_style = "--New get_style request detected. Chat id = {}"
 
-    def start_create_new_entry(self, chat_id):
-        db_log_action(self.create_new_entry.format(chat_id))
+    async def start_create_new_entry(self, chat_id):
+        await db_log_action(self.create_new_entry.format(chat_id))
 
-    def start_set_style_processing(self, chat_id, new_style):
-        db_log_action(self.set_style_command_detected.format(chat_id, new_style))
+    async def start_set_style_processing(self, chat_id, new_style):
+        await db_log_action(self.set_style_command_detected.format(chat_id, new_style))
 
-    def start_get_style_processing(self, chat_id):
-        db_log_action(self.get_style.format(chat_id))
+    async def start_get_style_processing(self, chat_id):
+        await db_log_action(self.get_style.format(chat_id))
 
-    def start_set_prob_processing(self, chat_id, new_prob):
-        db_log_action(self.set_prob_command_detected.format(chat_id, new_prob))
+    async def start_set_prob_processing(self, chat_id, new_prob):
+        await db_log_action(self.set_prob_command_detected.format(chat_id, new_prob))
