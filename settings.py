@@ -12,7 +12,8 @@ BASE_SETTING_CHAT_IN_DATABASE = {
 }
 STYLES = ['rude', 'cute', 'scientific', 'random']
 MODELS = {
-    'rude': '447186459f797a607246626049995548',
-    'cute': '467bcc720a40f28efff4e3e6d359065a',
-    'scientific': '82f30f60949e51e124ade201de216859'
+    'rude': '633b6955f7afbca241e611ae313d83ee',
+    'cute': 'f41815e4beb33d6566a5ffe1eb8e92bd',
+    'scientific': '9e68215a87e86320a044f41907e1e8d5',
+    'yoda': '2ed91ea1878c4f08ffd57a4ae32bb1b5'
 }
