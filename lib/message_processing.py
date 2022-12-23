@@ -2,12 +2,10 @@ from lib.utils import *
 from lib import logs
 import settings
 
-
 class ProcessingModel:
     def __init__(self):
         ttm.set_api_key(settings.TTM_TOKEN)
         self.type_list = settings.MODELS
-
         self.fine_tuned_models = dict()
         try:
             for [name, filename] in self.type_list.items():

@@ -1,7 +1,5 @@
-TOKEN = '5858690376:AAFdL2zBwBmRYh22f6xXyzroZhtxmYII8Dg'
-TTM_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhcGlfa2V5IjoiczAzNmdteHA1TWFLSVhaekdxZVVtNWZ5aFhVMFpvMksyUTFl' \
-            'UkpQVyIsInVzZXJfaWQiOiJlMTAwYmZmNi03YTRlLTQzN2YtOTdkYy1lYWIwYTlkM2NlOTUiLCJpYXQiOjE2NzExOTAzNjF9.mO3JwRj' \
-            'HKy8_LGku1_C_tIrCihF9ItO-bkBsw-k4AjQ'
+TOKEN = ''
+TTM_TOKEN = ''
 BOT_NAME = 'stylechangerNLPnebot'
 
 ADDR = 'flud'
