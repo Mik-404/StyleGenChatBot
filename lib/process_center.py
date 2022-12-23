@@ -13,10 +13,13 @@ async def distribution_center(message_type, message_text):
     if not sem.locked():
         async with sem:
             loop = asyncio.get_event_loop()
-            future = loop.create_future()
-            loop.create_task(generator.generate(message_type, message_text, future))
-            await future
-            gen = future.result()
-            return gen
+            for i in range(2):
+                future = loop.create_future()
+                loop.create_task(generator.generate(message_type, message_text, future))
+                await future
+                gen = future.result()
+                if gen != '-':
+                    return gen
+            return texts.so_har_msg
     else:
         return texts.too_many_reauests
