@@ -3,35 +3,40 @@ from lib import logs
 import settings
 
 
-def db_get_style(chat_id, INFO_group):
+async def db_get_style(chat_id, INFO_group, stl=None):
+    if stl:
+        if stl == 'random':
+            return list(settings.MODELS.keys())[random.randint(1, len(settings.MODELS)) - 1]
+        else:
+            return stl
+    await logs.DatabaseLog().start_get_style_processing(chat_id)
     chat_id = str(chat_id)
-    if chat_id in INFO_group.keys():
-        type_msg = INFO_group[chat_id]['style']
-    else:
-        INFO_group[chat_id] = settings.BASE_SETTING_CHAT_IN_DATABASE
-        type_msg = INFO_group[chat_id]['style']
+    type_msg = INFO_group[chat_id]['style']
     if type_msg == 'random':
         type_msg = list(settings.MODELS.keys())[random.randint(1, len(settings.MODELS)) - 1]
     return type_msg
 
 
-def db_set_style(INFO_group, chat_id, new_style):
+async def db_set_style(INFO_group, chat_id, new_style):
+    await logs.DatabaseLog().start_set_style_processing(chat_id, new_style)
     chat_id = str(chat_id)
     if chat_id not in INFO_group.keys():
         INFO_group[chat_id] = settings.BASE_SETTING_CHAT_IN_DATABASE
     INFO_group[chat_id]["style"] = new_style
 
 
-def db_set_prob(INFO_group, chat_id, prob):
+async def db_set_prob(INFO_group, chat_id, prob):
+    await logs.DatabaseLog().start_set_prob_processing(chat_id, prob)
     chat_id = str(chat_id)
     if chat_id not in INFO_group.keys():
         INFO_group[chat_id] = settings.BASE_SETTING_CHAT_IN_DATABASE
     INFO_group[chat_id]["p"] = prob
 
 
-def db_check_contain(INFO_group, chat_id):
+async def db_check_contain(INFO_group, chat_id):
     chat_id = str(chat_id)
     if chat_id not in INFO_group.keys():
+        await logs.DatabaseLog().start_create_new_entry(chat_id)
         INFO_group[chat_id] = settings.BASE_SETTING_CHAT_IN_DATABASE
 
 
