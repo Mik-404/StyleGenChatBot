@@ -10,7 +10,7 @@ MESSAGE_LOGS_NAME = 'message_logs.txt'
 DB_LOGS_NAME = 'db_log.txt'
 DATABASE_NAME = 'db.json'
 
-REQUESTS_TO_TTM = 5
+REQUESTS_TO_TTM = 15
 BASE_SETTING_CHAT_IN_DATABASE = {
     "style": "random",
     "p": '50',
